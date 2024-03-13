@@ -45,11 +45,11 @@ const generatePDF = async (data, signatureImageUrl) => {
       align: "left",
     });
     doc.moveDown(1);
-    doc.text("Candidate Signature", { align: "right" });
-    doc.moveDown(1);
     if (signatureImageUrl) {
-      doc.image(signatureImageUrl, 500, doc.y + 20, { width: 50 });
+      doc.image(signatureImageUrl, 500, doc.y, { width: 50 });
     }
+    doc.moveDown(1.5);
+    doc.text("Candidate Signature", { align: "right" });
     // Write PDF content to buffers
     doc.on("data", (buffer) => {
       buffers.push(buffer);

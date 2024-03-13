@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import "./App.css";
 import SignatureCanvas from "react-signature-canvas";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [isChecked, setIsChecked] = useState(false);
@@ -29,21 +31,37 @@ function App() {
     setIsChecked(!isChecked);
   };
 
-  const handleClear = () => {
-    sign.clear();
+  const handleClear = (e) => {
+    e.preventDefault();
+    if (!sign.isEmpty()) {
+      toast.success("Signature Cleared!");
+      sign.clear();
+      setUrl("");
+    }
   };
+
   const handleGenerateSign = () => {
-    if (sign) {
-      console.log("saved");
+    if (sign && !sign.isEmpty()) {
+      toast.success("Signature Saved");
       setUrl(sign.getTrimmedCanvas().toDataURL("image/png"));
     }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (sign && !sign.isEmpty()) {
-      // If signature is not empty, save it
-      handleGenerateSign();
+    if (formData.zip.length !== 6) {
+      toast.error("Please enter valid zip code");
+      return;
     }
+
+    if (!url) {
+      toast.error("Please save your E-sign");
+      return;
+    }
+
+    if (sign && !sign.isEmpty() && url) {
+      toast.success("Payment is processing");
+    }
+
     let data = {
       name: formData.name,
       email: formData.email,
@@ -55,8 +73,11 @@ function App() {
       signatureImageUrl: url || null,
     };
     try {
-      await axios.post("http://localhost:4000/api/user/shipping-form", data);
-      console.log("Successful");
+      const res = await axios.post(
+        "http://localhost:4000/api/user/shipping-form",
+        data
+      );
+      // console.log("Successful");
       setFormData({
         name: "",
         email: "",
@@ -66,10 +87,13 @@ function App() {
         zip: "",
         creditCardNo: "",
       });
+      if (res.data.success) {
+        toast.success("Payment successful");
+      }
       setIsChecked(false);
       sign.clear();
     } catch (error) {
-      console.log(error);
+      toast.error("Server error please fill again");
     }
   };
   const handleSaveButtonClick = (e) => {
@@ -80,10 +104,7 @@ function App() {
     <div className="wrapper">
       <div className="container">
         <form action="POST" onSubmit={handleSubmit}>
-          <h1>
-            <i className="fas fa-shipping-fast"></i>
-            Shipping Details
-          </h1>
+          <h1 className="H1textForSmallscreen">Shipping Details</h1>
           <div className="name">
             <div>
               <label htmlFor="f-name">Name</label>
@@ -148,9 +169,7 @@ function App() {
               />
             </div>
           </div>
-          <h1>
-            <i className="far fa-credit-card"></i> Payment Information
-          </h1>
+          <h1 className="H1textForSmallscreen">Payment Information</h1>
           <div className="cc-num">
             <label htmlFor="card-num">Credit Card No.</label>
             <input
@@ -174,8 +193,18 @@ function App() {
             </label>
           </div>
 
-          <p>Signature</p>
-          <div style={{ border: "1px solid grey", width: 500, height: 100 }}>
+          <p className="Signature">
+            <label>Signature</label>
+          </p>
+          <div
+            style={{
+              border: "1px solid grey",
+              maxWidth: 500,
+              maxHeight: 100,
+              marginLeft: "1rem",
+              marginRight: "1rem",
+            }}
+          >
             <SignatureCanvas
               canvasProps={{
                 width: 500,
@@ -199,6 +228,7 @@ function App() {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -8,9 +8,6 @@ import generatePDF from "../utils/PDFInvoice.js";
 const sendInvoice = asynchandler(async (req, res) => {
   const { name, email, creditCardNo, signatureImageUrl } = req.body;
   const address = `${req.body.street}, ${req.body.city}, ${req.body.state} ${req.body.zip}`;
-
-  console.log(address);
-
   if (
     [name, email, address, creditCardNo].some((field) => field?.trim() === "")
   ) {
@@ -23,14 +20,12 @@ const sendInvoice = asynchandler(async (req, res) => {
     creditCardNo,
     // Add more invoice data as needed
   };
-  console.log(pdfData);
 
   if (!pdfData) {
     throw new ApiError(500, "Something went wrong while making payment");
   }
 
   const pdfBuffer = await generatePDF(pdfData, signatureImageUrl);
-  console.log(pdfBuffer);
 
   const sendmail = await sendEmail(
     email,

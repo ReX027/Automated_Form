@@ -29,10 +29,9 @@ const sendEmail = async (email, subject, text, pdfData) => {
     });
 
     const response = "Email sent successfully";
-    console.log(response);
+
     return response;
   } catch (error) {
-    console.log(error.message);
     throw error;
   }
 };

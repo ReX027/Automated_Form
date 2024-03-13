@@ -3,11 +3,13 @@
 body {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 #root {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .wrapper {
@@ -21,7 +23,7 @@ body {
 
 .container {
   width: 100%;
-  height:auto;
+  height: auto;
   padding: 5% 10%;
 }
 
@@ -46,6 +48,53 @@ form input {
   font-family: "Arimo";
   margin-top: 5px;
   border-radius: 4px;
+}
+
+@media (max-width: 740px) {
+  form input {
+    max-width: 70%;
+  }
+  .Address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cc-num {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .Checkbox label {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .Signature {
+    text-align: center;
+  }
+  .btn {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 634px) {
+  .container {
+    padding: 0;
+  }
+  .sigCanvas {
+    width: 90vw;
+  }
+  .Checkbox {
+    display: flex;
+    justify-content: center;
+  }
+  .Checkbox label {
+    width: 90vw;
+  }
+  .H1textForSmallscreen {
+    font-size: 18px;
+  }
 }
 
 form label {
@@ -90,7 +139,8 @@ form h1:nth-of-type(2) {
 .cc-info div {
   width: 45%;
 }
-#clearbtn,#savebtn{
+#clearbtn,
+#savebtn {
   background-color: #f0f0f0;
   border: none;
   color: #666666;
@@ -99,16 +149,17 @@ form h1:nth-of-type(2) {
   border-radius: 4px;
   font-size: 14px;
   margin: 2px;
-  padding:3px 6px;
+  padding: 3px 6px;
   transition: background-color 0.3s ease;
 }
-#clearbtn:hover,#savebtn:hover{
-  opacity:0.5;
+#clearbtn:hover,
+#savebtn:hover {
+  opacity: 0.5;
 }
 .btns {
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
 }
 
 .btns button {
