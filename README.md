@@ -35,8 +35,10 @@ Visit my project website for more information:
    npm install
 
 4. Set up environment variables:
-   **Create a .env file in the root directory**
-   **Add necessary environment variables such as Port, email service credentials, etc.**
+
+   - Create a .env file in the root directory
+   - Add necessary environment variables such as Port, email service credentials, 
+     etc.
 
 5. Start the development server:
    ```bash
